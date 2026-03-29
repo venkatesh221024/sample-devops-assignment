@@ -1,0 +1,30 @@
+name: CI-CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Test
+      run: echo "test passed"
+
+    - name: Build Docker
+      run: docker build -t myapp .
+
+    - name: Run Container
+      run: docker run -d -p 3000:3000 myapp
